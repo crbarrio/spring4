@@ -1,9 +1,8 @@
 
 const options: RequestInit = {
-  method: "POST",
+  method: "GET",
   headers: {
-    "Content-Type": "application/json",
-    // "Authorization": "Bearer tu_token_aqui"
+    "Accept": "application/json",
   }
 };
 
@@ -15,11 +14,11 @@ export type ApiEndpointConfig = {
 
 export const apiData = {
     dadJoke : {
-        url: "https://api.ejemplo.com",
+        url: "https://icanhazdadjoke.com/",
         options: options,
     },
     chuckNorris : {
-        url: "https://api.ejemplo.com",
+        url: "https://api.chucknorris.io/jokes/random",
         options: options,
     },
     weather : {
