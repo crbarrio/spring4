@@ -1,1 +1,79 @@
 @import "tailwindcss";
+
+@theme {
+  /* Colors => bg-primary, text-primary, etc. */
+  --color-primary: #EF4444;
+  --color-secondary: #FCD34D;
+  --color-accent: #3B82F6;
+  --color-background-light: #FFFBEB;
+  --color-background-dark: #111827;
+  --color-comic-black: #0f172a;
+
+  /* Fonts => font-display, font-body */
+  --font-display: 'Bangers', cursive;
+  --font-body: 'Comic Neue', cursive;
+
+  /* Shadows => shadow-comic, shadow-comic-hover, shadow-comic-dark */
+  --shadow-comic: 5px 5px 0px 0px #000000;
+  --shadow-comic-hover: 2px 2px 0px 0px #000000;
+  --shadow-comic-dark: 5px 5px 0px 0px #ffffff;
+
+  /* Background images => bg-halftone-light, bg-halftone-dark */
+  --background-image-halftone-light: radial-gradient(#fbbf24 2px, transparent 2.5px);
+  --background-image-halftone-dark: radial-gradient(#374151 2px, transparent 2.5px);
+
+  /* Animations => animate-pow, animate-shimmer */
+  --animate-pow: pow 0.3s ease-in-out;
+  --animate-shimmer: shimmer 1s linear infinite;
+}
+
+@keyframes pow {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.1) rotate(5deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 200%; }
+}
+
+@layer utilities {
+  .halftone-bg {
+    background-size: 20px 20px;
+  }
+}
+
+@layer components {
+  .speech-bubble {
+    position: relative;
+  }
+
+  .speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 20px 20px 0;
+    border-style: solid;
+    border-color: #000000 transparent transparent transparent;
+    z-index: 10;
+  }
+
+  .speech-bubble::before {
+    content: '';
+    position: absolute;
+    bottom: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 17px 17px 0;
+    border-style: solid;
+    border-color: white transparent transparent transparent;
+    z-index: 11;
+  }
+
+  .dark .speech-bubble::before {
+    border-color: #1f2937 transparent transparent transparent;
+  }
+}

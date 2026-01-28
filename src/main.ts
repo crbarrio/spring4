@@ -1,34 +1,34 @@
-import './style.css'
-import { fetchData } from "./apiService";
+import { qs, qsa } from "./helpers";
+import { getJoke, saveScore } from "./jokeManager";
+import { getLocation } from "./weatherManager";
 
-function qs<T extends HTMLElement>(selector: string): T | null {
-  return document.querySelector(selector);
-}
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div class="flex flex-col justify-center w-2xl m-auto mt-10">
-    <h1 class="text-3xl self-center">
-      Get Jokes
-    </h1>
 
-    <p class="h-16 p-8 my-4 text-center" id="jokePanel"></p>
+getJoke();
+getLocation();
 
-    <div class="text-center">
-      <button class="bg-amber-700 border border-bg-white rounded px-3 py-2 m-3 hover:cursor-pointer hover:bg-amber-500" id="nextButton">Next</button>
-    </div>
-    
-  </div>
-`
+/// Event Listeners ///
 
+// Next Button
 const nextButton = qs<HTMLButtonElement>("#nextButton");
-const jokePanel = qs<HTMLParagraphElement>("#jokePanel");
-
 nextButton?.addEventListener('click', async () => {
-  const joke = await fetchData('dadJoke');
-  if (!jokePanel || !joke) return;
-
-  jokePanel.innerText = joke.joke ?? joke.id ?? '';
+  getJoke()
 })
 
 
+// Score Buttons
+
+//// ¿Cuando lanzar el evento en la pulsación del radio o en la pulsación de siguiente? ///
+// si en en la pulsación del radio como cambiar el resultado de la puntuacion? Controlo que siguiente ha sido pulsado?
+// si lo hago en siguiente tengo que controlar si el usuario no ha puntuado el chiste
+// al pulsar en siguiente resetear el radio siempre
+
+const scoreButtons = qsa<HTMLInputElement>(".scoreButton");
+scoreButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const score: number = parseInt(button.value || '0');
+    console.log(score)
+    saveScore(score);
+  })
+})
 
