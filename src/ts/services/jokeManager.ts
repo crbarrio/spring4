@@ -1,9 +1,9 @@
-import { apiData, type ApiEndpointConfig } from "../api/config";
+import { apiData, debug, type ApiEndpointConfig } from "../api/config";
 import { errors } from "../api/errors";
 import { fetchData } from "../api/apiService";
 import { printJoke } from "../ui/ui";
 import { qs } from "../utils/dom";
-import { jokesReport } from "../state/store";
+import { getJokesReport, setJokesReport } from "../state/store";
 
 
 function randomJoke(): ApiEndpointConfig {
@@ -21,18 +21,20 @@ export async function getJoke() {
         printJoke(apiResult.data[mapJoke!], apiResult.data.id);
     } else {
         printJoke(errors.userJokeError)
+        if (debug) console.log(apiResult.error) 
     }
 }
 
 export function saveScore(score: number, id: string) {
-    const jokePanel = qs<HTMLParagraphElement>("#jokePanel");
+    const jokePanel = qs<HTMLParagraphElement>("#jokePanel")!;
     const d = new Date()
+    const jokesReport = getJokesReport();
     const jokeIndex = jokesReport.findIndex(joke => joke.id == id);
 
-    if (!jokeIndex) {
+    if (jokeIndex === -1) {
         jokesReport.push({
             id: id,
-            joke: jokePanel ? jokePanel.innerText : '',
+            joke: jokePanel.innerText,
             score: score,
             date: d.toISOString()
         })
@@ -41,6 +43,7 @@ export function saveScore(score: number, id: string) {
         jokesReport[jokeIndex].date = d.toISOString();
     }
 
+    setJokesReport(jokesReport);
     console.log(jokesReport);
 }
 

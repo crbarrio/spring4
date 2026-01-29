@@ -2,9 +2,13 @@
 import { fetchData } from "../api/apiService";
 import { printWeather } from "../ui/ui";
 import { errors } from "../api/errors";
+import { debug } from "../api/config";
 
+type LocationOk = { status: "ok"; coords: { latitude: number; longitude: number } };
+type LocationError = { status: "error"; error: string };
+type LocationResult = LocationOk | LocationError;
 
-function locationSuccess(position: GeolocationPosition) {
+function locationSuccess(position: GeolocationPosition): LocationOk {
     const coords = {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
@@ -12,7 +16,7 @@ function locationSuccess(position: GeolocationPosition) {
     return { status: 'ok', coords: coords}
 }
 
-function locationError(error: GeolocationPositionError) {
+function locationError(error: GeolocationPositionError): LocationError {
 
     let errorText = ''
     switch(error.code) {
@@ -30,21 +34,27 @@ function locationError(error: GeolocationPositionError) {
     return {status: 'error', error: errorText}
 }
 
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(locationSuccess, locationError);
-    } else {
-        return {status: 'error', error: errors.getLocationError}
-    }
+function getLocation(): Promise<LocationResult> {
+    return new Promise((resolve) => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (coords) => resolve(locationSuccess(coords)), 
+                (error) => resolve(locationError(error))
+            );
+        } else {
+            resolve({status: 'error', error: errors.getLocationError})
+        }
+    })
+    
 }
 
 export async function getWeather() {
 
-    const apiOptions = getLocation();
+    const apiOptions = await getLocation();
 
     if (apiOptions?.status === 'ok') {
 
-        const apiResult = await fetchData('weather', apiOptions)
+        const apiResult = await fetchData('weather', apiOptions.coords)
 
         if (apiResult.status == 'ok') {
             printWeather(
@@ -52,7 +62,11 @@ export async function getWeather() {
                 apiResult.data.days[0].tempmax,
                 apiResult.data.days[0].tempmin
             )
+        } else {
+            if (debug) console.log(apiResult.error)           
         }
+    } else {
+        if (debug) console.log(apiOptions?.error)
     }
 }
 

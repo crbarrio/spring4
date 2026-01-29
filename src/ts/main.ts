@@ -14,18 +14,19 @@ document.addEventListener("DOMContentLoaded", () => {
   /// Event Listeners ///
 
   // Next Button
-  const nextButton = qs<HTMLButtonElement>("#nextButton");
-  nextButton?.addEventListener('click', async () => {
+  const nextButton = qs<HTMLButtonElement>("#nextButton")!;
+  nextButton.addEventListener('click', async () => {
     getJoke()
   })
 
 
   // Score Buttons
-  const scoreButtons = qsa<HTMLInputElement>(".scoreButton");
+  const scoreButtons = qsa<HTMLInputElement>(".scoreButton")!;
+  const jokePanel = qs<HTMLParagraphElement>("#jokePanel")!;
   scoreButtons.forEach(button => {
     button.addEventListener('click', () => {
       const score: number = parseInt(button.value || '0');
-      const id: string = button.getAttribute("data-id") || '';
+      const id: string = jokePanel.getAttribute("data-id") || '';
       saveScore(score, id);
     })
   })
