@@ -1,4 +1,5 @@
 import { apiData } from "./config";
+import { errors } from "./errors";
 
 
 function buildApiUrl(apiName: string, urlParameters: {} = {}) {
@@ -18,7 +19,7 @@ function buildApiUrl(apiName: string, urlParameters: {} = {}) {
             if (isOPtion && value) {
                 url = url.replace(`{{${option}}}`, value as string);
             } else if (isOPtion && !value) {
-                throw new Error("Falta el parámetro de opción de API: ")
+                throw new Error(errors.apiOptionsError)
             }
         });
     }
@@ -36,7 +37,7 @@ export async function fetchData(apiName: string, urlParameters: {} = {} ) {
 
     try {
         const response = await fetch(url, options );
-        if (!response.ok || response.status !== 200) throw new Error("Se ha producido un error en la solicitud");
+        if (!response.ok || response.status !== 200) throw new Error(errors.fetchDataError);
         const data = await response.json();
         return {status: 'ok', data};
     } catch (error) {

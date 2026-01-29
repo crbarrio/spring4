@@ -6,7 +6,6 @@ const options: RequestInit = {
   }
 };
 
-
 export type ApiEndpointConfig = {
   name: string,
   type: string,
@@ -16,7 +15,6 @@ export type ApiEndpointConfig = {
   joke?: string,
   requestOptions: RequestInit
 };
-
 
 export const apiData = [
   {
@@ -42,4 +40,3 @@ export const apiData = [
     requestOptions: options,
   },
 ] satisfies ApiEndpointConfig[]
-

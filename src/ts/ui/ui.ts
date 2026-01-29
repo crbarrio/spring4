@@ -1,4 +1,4 @@
-import { qs } from "./helpers";
+import { qs } from "../utils/dom";
 
 export function printJoke (joke: string, id: string = '') { 
     const jokePanel = qs<HTMLParagraphElement>("#jokePanel");

@@ -1,8 +1,9 @@
-import { apiData, type ApiEndpointConfig } from "./config";
-import { fetchData } from "./apiService";
-import { printJoke } from "./ui";
-import { qs } from "./helpers";
-import { jokesReport } from "./db";
+import { apiData, type ApiEndpointConfig } from "../api/config";
+import { errors } from "../api/errors";
+import { fetchData } from "../api/apiService";
+import { printJoke } from "../ui/ui";
+import { qs } from "../utils/dom";
+import { jokesReport } from "../state/store";
 
 
 function randomJoke(): ApiEndpointConfig {
@@ -19,15 +20,16 @@ export async function getJoke() {
     if (apiResult.status == 'ok') {
         printJoke(apiResult.data[mapJoke!], apiResult.data.id);
     } else {
-        printJoke(apiResult.data)
+        printJoke(errors.userJokeError)
     }
 }
 
 export function saveScore(score: number, id: string) {
     const jokePanel = qs<HTMLParagraphElement>("#jokePanel");
     const d = new Date()
+    const jokeIndex = jokesReport.findIndex(joke => joke.id == id);
 
-    if (!jokesReport.find(joke => joke.id == id)) {
+    if (!jokeIndex) {
         jokesReport.push({
             id: id,
             joke: jokePanel ? jokePanel.innerText : '',
@@ -35,7 +37,6 @@ export function saveScore(score: number, id: string) {
             date: d.toISOString()
         })
     } else {
-        const jokeIndex = jokesReport.findIndex(joke => joke.id == id);
         jokesReport[jokeIndex].score = score;
         jokesReport[jokeIndex].date = d.toISOString();
     }
