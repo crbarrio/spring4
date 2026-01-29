@@ -17,8 +17,8 @@ export function printWeather(icon: string, tempMax: string, tempMin: string) {
     if(weatherIcon) {
         weatherIcon.src=`./src/assets/icons/${icon}.svg`
         weatherIcon.alt=icon
-        weatherIcon.classList.add("h-20", "w-20")
+        weatherIcon.classList.add("h-10", "w-10", "md:h-16", "md:w-16", "lg:h-20", "lg:w-20")
     }
 
-    if(curTemp) curTemp.innerText = `Max: ${tempMax}°C / Min: ${tempMin}°C`
+    if(curTemp) curTemp.innerHTML = `Max: ${tempMax}°C <br> Min: ${tempMin}°C`
 }
