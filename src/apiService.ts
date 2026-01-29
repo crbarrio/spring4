@@ -33,8 +33,6 @@ export async function fetchData(apiName: string, urlParameters: {} = {} ) {
     const options = api.requestOptions
 
     const url = buildApiUrl(apiName, urlParameters)
- 
-    console.log(`Fetching data from ${url}`) 
 
     try {
         const response = await fetch(url, options );
@@ -42,7 +40,6 @@ export async function fetchData(apiName: string, urlParameters: {} = {} ) {
         const data = await response.json();
         return {status: 'ok', data};
     } catch (error) {
-        console.error(error);
         return {status: 'error', data: error}
     }
 }

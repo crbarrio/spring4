@@ -27,8 +27,8 @@ const scoreButtons = qsa<HTMLInputElement>(".scoreButton");
 scoreButtons.forEach(button => {
   button.addEventListener('click', () => {
     const score: number = parseInt(button.value || '0');
-    console.log(score)
-    saveScore(score);
+    const id: string = button.getAttribute("data-id") || '';
+    saveScore(score, id);
   })
 })
 

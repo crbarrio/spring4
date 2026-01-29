@@ -1,5 +1,6 @@
 
 import { fetchData } from "./apiService";
+import { printWeather } from "./ui";
 
 export function getLocation() {
     if (navigator.geolocation) {
@@ -37,6 +38,13 @@ async function getWeather(apiOpions: {}) {
 
     const apiResult = await fetchData('weather', apiOpions)
 
-    console.log(apiResult.data.currentConditions.icon, apiResult.data.days[0].tempmax, apiResult.data.days[0].tempmin)
+    if (apiResult.status == 'ok') {
+        printWeather(
+            apiResult.data.currentConditions.icon,
+            apiResult.data.days[0].tempmax,
+            apiResult.data.days[0].tempmin
+        )
+    }
+
 }
 

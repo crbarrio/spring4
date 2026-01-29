@@ -1,4 +1,5 @@
 type jokesReportType = {
+  id: string,
   joke: string,
   score: number,
   date: string

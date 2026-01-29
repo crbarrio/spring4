@@ -7,7 +7,7 @@ const options: RequestInit = {
 };
 
 
-type ApiEndpointConfig = {
+export type ApiEndpointConfig = {
   name: string,
   type: string,
   url: string,
