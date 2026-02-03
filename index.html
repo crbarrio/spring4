@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta name="description" content="Fun Joke Generator - Comic Edition: random jokes, weather info and fun rating system." />
+  <meta name="author" content="Carlos Ramírez" />
+
   <title>Fun Joke Generator - Comic Edition</title>
+
   <link href="https://fonts.googleapis.com" rel="preconnect" />
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
   <link href="https://fonts.googleapis.com/css2?family=Bangers&amp;family=Comic+Neue:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet" />
@@ -14,20 +18,20 @@
 <body
   class="bg-background-light dark:bg-background-dark min-h-screen flex items-center justify-center font-body overflow-hidden relative transition-colors duration-300">
   <div
-    class="absolute inset-0 bg-halftone-light dark:bg-halftone-dark halftone-bg opacity-30 dark:opacity-20 pointer-events-none z-0">
+    class="absolute inset-0 bg-halftone-light dark:bg-halftone-dark halftone-bg opacity-30 dark:opacity-20 pointer-events-none z-0" aria-hidden="true" role="presentation">
   </div>
   <div class="absolute top-4 left-4 md:top-10 md:left-10 flex flex-col items-center">
     <img src="" class="" alt="" id="weatherIcon">
     <span id="curTemp" class="text-sm md:text-lg font-semibold dark:text-white text-gray-700"></span>
   </div>
   <div class="absolute bottom-10 left-10 transform -rotate-12 hidden md:block">
-    <span class="font-display text-6xl text-accent dark:text-blue-400 drop-shadow-[2px_2px_0_#000]">HA!</span>
+    <span class="font-display text-6xl text-accent dark:text-blue-400 drop-shadow-[2px_2px_0_#000]" aria-hidden="true">HA!</span>
   </div>
   <div class="absolute bottom-20 right-20 transform rotate-12 hidden md:block">
-    <span class="font-display text-7xl text-secondary dark:text-yellow-400 drop-shadow-[2px_2px_0_#000]">LOL</span>
+    <span class="font-display text-7xl text-secondary dark:text-yellow-400 drop-shadow-[2px_2px_0_#000]" aria-hidden="true">LOL</span>
   </div>
   <main class="relative z-10 w-full max-w-2xl px-4 py-8">
-    <header class="text-center mb-10">
+    <header class="text-center mb-6 md:mb-12">
       <h1
         class="font-display text-5xl md:text-7xl text-comic-black dark:text-white mb-2 uppercase tracking-wide drop-shadow-[3px_3px_0_rgba(239,68,68,1)] dark:drop-shadow-[3px_3px_0_rgba(239,68,68,1)]"
         style="-webkit-text-stroke: 1px black;">
@@ -35,70 +39,110 @@
       </h1>
       <p
         class="font-body font-bold text-xl md:text-2xl text-gray-800 dark:text-gray-300 transform -rotate-2 bg-white dark:bg-gray-800 inline-block px-4 py-1 border-2 border-black shadow-comic dark:shadow-none">
-        ¿Listo para reir?
+        ¿Ready to laugh?
       </p>
     </header>
+
     <div
-      class="speech-bubble bg-white dark:bg-gray-800 border-4 border-black dark:border-white rounded-4xl p-8 md:p-12 mb-12 shadow-comic dark:shadow-[5px_5px_0px_0px_#ef4444] transform transition-all hover:-translate-y-1">
+      class="group relative top-8 -left-1 md:top-12 md:-left-8 z-40 w-18 h-18 md:w-26 md:h-26 flex items-center justify-center opacity-0 scale-0 translate-y-4 transform transition-all duration-500"
+      id="StarScore">
+      <svg
+        class="absolute inset-0 w-full h-full text-red-400 drop-shadow-[2px_2px_0_#000]"
+        fill="currentColor" viewBox="0 0 100 100">
+        <path d="M50 0 L61 35 L98 35 L68 57 L79 91 L50 70 L21 91 L32 57 L2 35 L39 35 Z" stroke="black"
+          stroke-linejoin="round" stroke-width="3"></path>
+      </svg>
+      <span class="relative z-10 font-display text-2xl text-black" id="scoreNumber">1</span>
+    </div>
+
+
+    <div
+      class="flex justify-center items-center relative speech-bubble bg-white dark:bg-gray-800 border-4 border-black dark:border-white rounded-4xl p-6 md:p-12 mb-12 shadow-comic dark:shadow-[5px_5px_0px_0px_#ef4444] transform transition-all hover:-translate-y-1">
       <p 
         id="jokePanel"
+        aria-live="polite"
         data-id=""
-        class="text-2xl md:text-2xl font-display text-center text-comic-black dark:text-white leading-relaxed">
+        data-joke=""
+        class="text-xl md:text-2xl font-display text-center text-comic-black dark:text-white leading-relaxed flex justify-center items-center transition-all min-h-20 max-h-36 overflow-y-auto">
       </p>
+      <svg 
+        id="spinnerJoke"
+        role="status"
+        aria-live="polite"
+        aria-hidden="true"
+        class="text-gray-300 w-8 h-8 animate-spin" 
+        viewBox="0 0 64 64" 
+        fill="none" 
+        xmlns="http://www.w3.org/2000/svg" 
+        width="24" 
+        height="24">
+        <path
+          d="M32 3C35.8083 3 39.5794 3.75011 43.0978 5.20749C46.6163 6.66488 49.8132 8.80101 52.5061 11.4939C55.199 14.1868 57.3351 17.3837 58.7925 20.9022C60.2499 24.4206 61 28.1917 61 32C61 35.8083 60.2499 39.5794 58.7925 43.0978C57.3351 46.6163 55.199 49.8132 52.5061 52.5061C49.8132 55.199 46.6163 57.3351 43.0978 58.7925C39.5794 60.2499 35.8083 61 32 61C28.1917 61 24.4206 60.2499 20.9022 58.7925C17.3837 57.3351 14.1868 55.199 11.4939 52.5061C8.801 49.8132 6.66487 46.6163 5.20749 43.0978C3.7501 39.5794 3 35.8083 3 32C3 28.1917 3.75011 24.4206 5.2075 20.9022C6.66489 17.3837 8.80101 14.1868 11.4939 11.4939C14.1868 8.80099 17.3838 6.66487 20.9022 5.20749C24.4206 3.7501 28.1917 3 32 3L32 3Z"
+          stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path>
+        <path
+          d="M32 3C36.5778 3 41.0906 4.08374 45.1692 6.16256C49.2477 8.24138 52.7762 11.2562 55.466 14.9605C58.1558 18.6647 59.9304 22.9531 60.6448 27.4748C61.3591 31.9965 60.9928 36.6232 59.5759 40.9762"
+          stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" class="text-red-400">
+        </path>
+      </svg>
     </div>
-    <div class="text-center mt-16 space-y-6">
-      <h3
-        class="font-display text-2xl text-comic-black dark:text-white tracking-wider uppercase border-b-4 border-primary inline-block pb-1">
-        Puntua este chiste:
-      </h3>
-      <div class="flex justify-center items-center gap-6 md:gap-10 pt-4">
-        <input type="radio" name="score" class="scoreButton hidden" id="score-1" value="1">
-        <label for="score-1" class="group relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center hover:animate-pow focus:outline-none">
-          <svg
-            class="absolute inset-0 w-full h-full text-yellow-400 drop-shadow-[3px_3px_0_#000] group-hover:text-yellow-300 transition-colors"
-            fill="currentColor" viewBox="0 0 100 100">
-            <path d="M50 0 L61 35 L98 35 L68 57 L79 91 L50 70 L21 91 L32 57 L2 35 L39 35 Z" stroke="black"
-              stroke-linejoin="round" stroke-width="3"></path>
-          </svg>
-          <span class="relative z-10 font-display text-2xl text-black">1</span>
-        </label>
-        <input type="radio" name="score" class="scoreButton hidden" id="score-2" value="2">
-        <label for="score-2" class="group relative w-20 h-20 md:w-24 md:h-24 flex items-center justify-center hover:animate-pow focus:outline-none transform -translate-y-4" data-score="2">
-          <svg
-            class="absolute inset-0 w-full h-full text-orange-400 drop-shadow-[3px_3px_0_#000] group-hover:text-orange-300 transition-colors"
-            fill="currentColor" viewBox="0 0 100 100">
-            <path d="M50 0 L63 28 L95 25 L75 50 L95 75 L63 72 L50 100 L37 72 L5 75 L25 50 L5 25 L37 28 Z" stroke="black"
-              stroke-linejoin="round" stroke-width="3"></path>
-          </svg>
-          <span class="relative z-10 font-display text-3xl text-black">2</span>
-        </label>
-        <input type="radio" name="score" class="scoreButton hidden" id="score-3" value="3">
-        <label for="score-3" class="group relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center hover:animate-pow focus:outline-none" data-score="3">
-          <svg
-            class="absolute inset-0 w-full h-full text-green-400 drop-shadow-[3px_3px_0_#000] group-hover:text-green-300 transition-colors"
-            fill="currentColor" viewBox="0 0 100 100">
-            <path d="M50 0 L61 35 L98 35 L68 57 L79 91 L50 70 L21 91 L32 57 L2 35 L39 35 Z" stroke="black"
-              stroke-linejoin="round" stroke-width="3" transform="rotate(180 50 50)"></path>
-          </svg>
-          <span class="relative z-10 font-display text-2xl text-black">3</span>
-        </label>
-      </div>
+    <div class="text-center mt-16 space-y-6 opacity-0 transition-all duration-500" id="scoreSection">
+      <fieldset aria-labelledby="scoreLegend">
+        <legend
+          id="scoreLegend"
+          class="font-display text-2xl text-comic-black dark:text-white tracking-wider uppercase border-b-4 border-primary inline-block pb-1">
+          Rate this joke from 1 to 3
+        </legend>
+
+
+        <div class="flex justify-center items-center gap-6 md:gap-10 pt-4">
+          <input type="radio" name="score" class="scoreButton hidden" id="score-1" value="1">
+          <label for="score-1" class="group relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center hover:animate-pow focus:outline-none">
+            <svg
+              class="absolute inset-0 w-full h-full text-yellow-400 drop-shadow-[3px_3px_0_#000] group-hover:text-yellow-300 transition-colors"
+              fill="currentColor" viewBox="0 0 100 100">
+              <path d="M50 0 L61 35 L98 35 L68 57 L79 91 L50 70 L21 91 L32 57 L2 35 L39 35 Z" stroke="black"
+                stroke-linejoin="round" stroke-width="3"></path>
+            </svg>
+            <span class="relative z-10 font-display text-2xl text-black">1</span>
+          </label>
+          <input type="radio" name="score" class="scoreButton hidden" id="score-2" value="2">
+          <label for="score-2" class="group relative w-20 h-20 md:w-24 md:h-24 flex items-center justify-center hover:animate-pow focus:outline-none transform -translate-y-4" data-score="2">
+            <svg
+              class="absolute inset-0 w-full h-full text-orange-400 drop-shadow-[3px_3px_0_#000] group-hover:text-orange-300 transition-colors"
+              fill="currentColor" viewBox="0 0 100 100">
+              <path d="M50 0 L63 28 L95 25 L75 50 L95 75 L63 72 L50 100 L37 72 L5 75 L25 50 L5 25 L37 28 Z" stroke="black"
+                stroke-linejoin="round" stroke-width="3"></path>
+            </svg>
+            <span class="relative z-10 font-display text-3xl text-black">2</span>
+          </label>
+          <input type="radio" name="score" class="scoreButton hidden" id="score-3" value="3">
+          <label for="score-3" class="group relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center hover:animate-pow focus:outline-none" data-score="3">
+            <svg
+              class="absolute inset-0 w-full h-full text-green-400 drop-shadow-[3px_3px_0_#000] group-hover:text-green-300 transition-colors"
+              fill="currentColor" viewBox="0 0 100 100">
+              <path d="M50 0 L61 35 L98 35 L68 57 L79 91 L50 70 L21 91 L32 57 L2 35 L39 35 Z" stroke="black"
+                stroke-linejoin="round" stroke-width="3" transform="rotate(180 50 50)"></path>
+            </svg>
+            <span class="relative z-10 font-display text-2xl text-black">3</span>
+          </label>
+        </div>
+      </fieldset>
     </div>
     <div class="mt-12 text-center">
       <button
         id="nextButton"
         class="bg-primary text-white font-display text-2xl md:text-3xl px-8 py-4 rounded-xl border-4 border-black dark:border-white shadow-comic active:shadow-none active:translate-x-1.25 active:translate-y-1.25 transition-all duration-150 uppercase tracking-widest hover:bg-red-500 w-full md:w-auto relative overflow-hidden group">
-        <span class="relative z-10">Siguiente Chiste</span>
+        <span class="relative z-10">Next Joke</span>
         <div
           class="absolute top-0 -left-full w-full h-full bg-white/30 transform skew-x-[-20deg] group-hover:animate-shimmer">
         </div>
       </button>
     </div>
   </main>
-  <div class="fixed bottom-0 left-0 w-full h-4 bg-black z-20"></div>
-  <div class="fixed top-0 left-0 w-full h-4 bg-black z-20"></div>
-  <div class="fixed top-0 left-0 h-full w-4 bg-black z-20 hidden md:block"></div>
-  <div class="fixed top-0 right-0 h-full w-4 bg-black z-20 hidden md:block"></div>
+  <div class="fixed bottom-0 left-0 w-full h-4 bg-black z-20" aria-hidden="true" role="presentation"></div>
+  <div class="fixed top-0 left-0 w-full h-4 bg-black z-20" aria-hidden="true" role="presentation"></div>
+  <div class="fixed top-0 left-0 h-full w-4 bg-black z-20 hidden md:block" aria-hidden="true" role="presentation"></div>
+  <div class="fixed top-0 right-0 h-full w-4 bg-black z-20 hidden md:block" aria-hidden="true" role="presentation"></div>
   <script type="module" src="./src/ts/main.ts"></script>
 </body>
 
