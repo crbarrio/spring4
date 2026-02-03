@@ -1,7 +1,9 @@
 export const errors = {
   userJokeError: "We couldn't find any jokes at this moment, try again later",
-  apiOptionsError: "buildApiUrl error: Parameters missing for the api request",
+  apiOptionsError: "checkApiCall error: Parameters missing for the api request",
+  apiNameError: "The API does not exist in the config file",
   apiKeyError: "API Key Error",
+  apiUrlError: "API URL Error",
   fetchDataError: "fetchData error: The API did not send a successfull answer ",
   getLocationError: "Geolocation is not supported by the browser",
   locationErrors : {
