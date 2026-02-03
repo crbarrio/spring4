@@ -34,7 +34,7 @@ export function printWeather(icon: string, tempMax: string, tempMin: string) {
     const weatherIcon = qs<HTMLImageElement>("#weatherIcon")!;
     const curTemp = qs<HTMLDivElement>("#curTemp")!;
 
-    weatherIcon.src=`./src/assets/icons/${icon}.svg`
+    weatherIcon.src=`./assets/icons/${icon}.svg`
     weatherIcon.alt=icon
     weatherIcon.classList.add("h-10", "w-10", "md:h-16", "md:w-16", "lg:h-20", "lg:w-20")
     curTemp.innerHTML = `Max: ${tempMax}°C <br> Min: ${tempMin}°C`
@@ -60,7 +60,7 @@ export function showScore(score: number) {
     hideScoreTimeout = window.setTimeout(() => {
         starScore.classList.remove("opacity-100", "scale-100", "-translate-y-2", "animate-pow");
         starScore.classList.add("opacity-0", "scale-0", "translate-y-4");
-    }, 2500);
+    }, 1400);
 }
 
 export function showStarsPanel(status: string) {
