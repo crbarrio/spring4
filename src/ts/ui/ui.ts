@@ -33,6 +33,10 @@ export function printJoke (joke: string, status: string, id: string = '') {
 export function printWeather(icon: string, tempMax: string, tempMin: string) {
     const weatherIcon = qs<HTMLImageElement>("#weatherIcon")!;
     const curTemp = qs<HTMLDivElement>("#curTemp")!;
+    const weatherPanel = qs<HTMLDivElement>("#wetherPanel")!;
+
+    weatherPanel.classList.remove("opacity-0");
+    weatherPanel.classList.add("opacity-100", "animate-pow");
 
     weatherIcon.src=`./assets/icons/${icon}.svg`
     weatherIcon.alt=icon

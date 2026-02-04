@@ -17,21 +17,22 @@
 
 <body
   class="bg-background-light dark:bg-background-dark min-h-screen flex items-center justify-center font-body overflow-hidden relative transition-colors duration-300">
-  <div
-    class="absolute inset-0 bg-halftone-light dark:bg-halftone-dark halftone-bg opacity-30 dark:opacity-20 pointer-events-none z-0" aria-hidden="true" role="presentation">
+  <div class="absolute inset-0 bg-halftone-light dark:bg-halftone-dark halftone-bg opacity-30 dark:opacity-20 pointer-events-none z-0" aria-hidden="true" role="presentation">
   </div>
-  <div class="absolute top-4 left-4 md:top-10 md:left-10 flex flex-col items-center">
-    <img src="" class="" alt="" id="weatherIcon">
-    <span id="curTemp" class="text-sm md:text-lg font-semibold dark:text-white text-gray-700"></span>
+
+  <div id="wetherPanel" class="absolute top-28 right-4 md:top-40 md:right-8 flex flex-col items-center bg-white dark:bg-gray-800 border-2 border-black dark:border-white p-2 rounded-lg shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transform rotate-6 z-20 transition-transform hover:scale-110 hover:rotate-0 opacity-0">
+    <img src="" class="w-10 h-10 md:w-12 md:h-12 drop-shadow-sm" alt="" id="weatherIcon">
+    <span id="curTemp" class="text-xs md:text-sm font-bold font-body text-center leading-tight text-comic-black dark:text-white mt-1"></span>
   </div>
+
   <div class="absolute bottom-10 left-10 transform -rotate-12 hidden md:block">
     <span class="font-display text-6xl text-accent dark:text-blue-400 drop-shadow-[2px_2px_0_#000]" aria-hidden="true">HA!</span>
   </div>
   <div class="absolute bottom-20 right-20 transform rotate-12 hidden md:block">
     <span class="font-display text-7xl text-secondary dark:text-yellow-400 drop-shadow-[2px_2px_0_#000]" aria-hidden="true">LOL</span>
   </div>
-  <main class="relative z-10 w-full max-w-2xl px-4 py-8">
-    <header class="text-center mb-6 md:mb-12">
+  <main class="relative z-10 w-full max-w-2xl px-4 py-4 md:py-8">
+    <header class="text-center mb-4 md:mb-8">
       <h1
         class="font-display text-5xl md:text-7xl text-comic-black dark:text-white mb-2 uppercase tracking-wide drop-shadow-[3px_3px_0_rgba(239,68,68,1)] dark:drop-shadow-[3px_3px_0_rgba(239,68,68,1)]"
         style="-webkit-text-stroke: 1px black;">
@@ -39,7 +40,7 @@
       </h1>
       <p
         class="font-body font-bold text-xl md:text-2xl text-gray-800 dark:text-gray-300 transform -rotate-2 bg-white dark:bg-gray-800 inline-block px-4 py-1 border-2 border-black shadow-comic dark:shadow-none">
-        ¿Ready to laugh?
+        Ready to laugh?
       </p>
     </header>
 
@@ -57,7 +58,7 @@
 
 
     <div
-      class="flex justify-center items-center relative speech-bubble bg-white dark:bg-gray-800 border-4 border-black dark:border-white rounded-4xl p-6 md:p-12 mb-12 shadow-comic dark:shadow-[5px_5px_0px_0px_#ef4444] transform transition-all hover:-translate-y-1">
+      class="flex justify-center items-center relative speech-bubble bg-white dark:bg-gray-800 border-4 border-black dark:border-white rounded-4xl p-6 md:p-10 mb-8 shadow-comic dark:shadow-[5px_5px_0px_0px_#ef4444] transform transition-all hover:-translate-y-1">
       <p 
         id="jokePanel"
         aria-live="polite"
@@ -85,7 +86,7 @@
         </path>
       </svg>
     </div>
-    <div class="text-center mt-16 space-y-6 opacity-0 transition-all duration-500" id="scoreSection">
+    <div class="text-center mt-6 md:mt-10 space-y-4 opacity-0 transition-all duration-500" id="scoreSection">
       <fieldset aria-labelledby="scoreLegend">
         <legend
           id="scoreLegend"
@@ -128,7 +129,7 @@
         </div>
       </fieldset>
     </div>
-    <div class="mt-12 text-center">
+    <div class="mt-6 md:mt-10 text-center">
       <button
         id="nextButton"
         class="bg-primary text-white font-display text-2xl md:text-3xl px-8 py-4 rounded-xl border-4 border-black dark:border-white shadow-comic active:shadow-none active:translate-x-1.25 active:translate-y-1.25 transition-all duration-150 uppercase tracking-widest hover:bg-red-500 w-full md:w-auto relative overflow-hidden group">
@@ -139,8 +140,8 @@
       </button>
     </div>
   </main>
-  <div class="fixed bottom-0 left-0 w-full h-4 bg-black z-20" aria-hidden="true" role="presentation"></div>
-  <div class="fixed top-0 left-0 w-full h-4 bg-black z-20" aria-hidden="true" role="presentation"></div>
+  <div class="fixed bottom-0 left-0 w-full h-4 bg-black z-20 hidden md:block" aria-hidden="true" role="presentation"></div>
+  <div class="fixed top-0 left-0 w-full h-4 bg-black z-20 hidden md:block" aria-hidden="true" role="presentation"></div>
   <div class="fixed top-0 left-0 h-full w-4 bg-black z-20 hidden md:block" aria-hidden="true" role="presentation"></div>
   <div class="fixed top-0 right-0 h-full w-4 bg-black z-20 hidden md:block" aria-hidden="true" role="presentation"></div>
   <script type="module" src="./src/ts/main.ts"></script>
