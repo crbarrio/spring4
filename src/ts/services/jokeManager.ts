@@ -1,6 +1,7 @@
 import { apiData, debug, type ApiEndpointConfig } from "../api/config";
 import { errors } from "../api/errors";
 import { fetchData } from "../api/apiService";
+import { translateJoke } from "./languageManager";
 import { printJoke, toggleScorePanel } from "../ui/ui";
 import { getJokesReport, setJokesReport } from "../state/store";
 
@@ -28,20 +29,7 @@ export async function getJoke() {
 }
 
 
-async function translateJoke(joke:string): Promise<string> {
 
-    const translation  = await fetchData('translate', {source: 'en', target: 'es', q: joke});
-
-    if (debug && translation.status === 'error') console.log(translation.error);
-
-    console.log(translation)
-    
-    if (translation.status === 'ok') {
-        return translation.data.translatedText;
-    }
-
-    return joke;
-}
 
 export function saveScore(score: number, id: string, joke: string) {
     const d = new Date()

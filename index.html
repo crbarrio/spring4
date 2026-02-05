@@ -7,7 +7,7 @@
   <meta name="description" content="Fun Joke Generator - Comic Edition: random jokes, weather info and fun rating system." />
   <meta name="author" content="Carlos Ramírez" />
 
-  <title>Fun Joke Generator - Comic Edition</title>
+  <title>Random Joke Generator</title>
 
   <link href="https://fonts.googleapis.com" rel="preconnect" />
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
@@ -20,7 +20,17 @@
   <div class="absolute inset-0 bg-halftone-light dark:bg-halftone-dark halftone-bg opacity-30 dark:opacity-20 pointer-events-none z-0" aria-hidden="true" role="presentation">
   </div>
 
- 
+  <div class="absolute top-2 left-5 mt-3 flex justify-center md:justify-end">
+    <select
+      id="languageSelect"
+      name="language"
+      aria-label="Language"
+      class="bg-white dark:bg-gray-800 text-comic-black dark:text-white font-body font-bold text-sm md:text-base px-3 py-2 rounded-lg border-2 border-black dark:border-white shadow-comic focus:outline-none focus:ring-0">
+      <option value="en" selected>EN</option>
+      <option value="es">ES</option>
+      <option value="fr">FR</option>
+    </select>
+  </div>
 
   <div class="absolute bottom-10 left-10 transform -rotate-12 hidden md:block">
     <span class="font-display text-6xl text-accent dark:text-blue-400 drop-shadow-[2px_2px_0_#000]" aria-hidden="true">HA!</span>
@@ -33,9 +43,10 @@
       <h1
         class="font-display text-5xl md:text-7xl text-comic-black dark:text-white mb-2 uppercase tracking-wide drop-shadow-[3px_3px_0_rgba(239,68,68,1)] dark:drop-shadow-[3px_3px_0_rgba(239,68,68,1)]"
         style="-webkit-text-stroke: 1px black;">
-        Get Jokes
+        Get JoKes
       </h1>
       <p
+        data-i18n="subHeader"
         class="font-body font-bold text-xl md:text-2xl text-gray-800 dark:text-gray-300 transform -rotate-2 bg-white dark:bg-gray-800 inline-block px-4 py-1 border-2 border-black shadow-comic dark:shadow-none">
         Ready to laugh?
       </p>
@@ -90,9 +101,10 @@
     <div class="text-center mt-6 md:mt-10 space-y-4 opacity-0 transition-all duration-500" id="scoreSection">
       <fieldset aria-labelledby="scoreLegend">
         <legend
+          data-i18n="ScoreLegend"
           id="scoreLegend"
           class="font-display text-2xl text-comic-black dark:text-white tracking-wider uppercase border-b-4 border-primary inline-block pb-1">
-          Rate this joke from 1 to 3
+          Rate this joke from 1 to 3 stars!
         </legend>
 
 
@@ -134,13 +146,17 @@
       <button
         id="nextButton"
         class="bg-primary text-white font-display text-2xl md:text-3xl px-8 py-4 rounded-xl border-4 border-black dark:border-white shadow-comic active:shadow-none active:translate-x-1.25 active:translate-y-1.25 transition-all duration-150 uppercase tracking-widest hover:bg-red-500 w-full md:w-auto relative overflow-hidden group">
-        <span class="relative z-10">Next Joke</span>
+        <span data-i18n="nextButton" class="relative z-10">Next Joke</span>
         <div
           class="absolute top-0 -left-full w-full h-full bg-white/30 transform skew-x-[-20deg] group-hover:animate-shimmer">
         </div>
       </button>
     </div>
+    
   </main>
+  <div id="translationError" class="fixed bottom-4 hidden text-red-700 font-display text-sm md:text-lg mt-4">
+    <p data-i18n="translationError">* Sorry, we couldn't translate the joke. Please try again later</p>
+  </div>
   <div class="fixed bottom-0 left-0 w-full h-4 bg-black z-20 hidden md:block" aria-hidden="true" role="presentation"></div>
   <div class="fixed top-0 left-0 w-full h-4 bg-black z-20 hidden md:block" aria-hidden="true" role="presentation"></div>
   <div class="fixed top-0 left-0 h-full w-4 bg-black z-20 hidden md:block" aria-hidden="true" role="presentation"></div>

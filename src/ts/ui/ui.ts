@@ -28,7 +28,6 @@ export function printJoke (joke: string, status: string, id: string = '') {
     }
 }
 
-
 export function printWeather(icon: string, tempMax: string, tempMin: string) {
     const weatherIcon = qs<HTMLImageElement>("#weatherIcon")!;
     const curTemp = qs<HTMLDivElement>("#curTemp")!;
@@ -89,4 +88,14 @@ export function resetJokePanel() {
     spinnerTimeout = window.setTimeout(() => {
         spinner.classList.remove("hidden");
     }, 500);
+}
+
+export function showTranslationError() {
+    const translationError = qs<HTMLDivElement>("#translationError")!;
+    translationError.classList.remove("hidden");
+}
+
+export function hideTranslationError() {
+    const translationError = qs<HTMLDivElement>("#translationError")!;
+    translationError.classList.add("hidden");
 }
