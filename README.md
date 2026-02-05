@@ -36,11 +36,13 @@ Single-page app that shows random jokes with a comic-style layout and a small we
 - `src/ts/utils/dom.ts` – small DOM utility helpers
 - `tests/apiService.test.ts` – sample unit tests
 
-With the `.env.local` configured and `npm run dev` running, you should get jokes, ratings, and weather data working end to end.
+With the `.env` configured and `npm run dev` running, you should get jokes, ratings, and weather data working end to end.
 
 ## Environment configuration
 
 This project uses Vite, so only variables prefixed with `VITE_` are exposed to the client.
+
+Important: any `VITE_` variable ends up bundled into the frontend build, so it should not contain real secrets. For production, a personal API token should be kept server-side (backend) and the frontend should call your own backend endpoint instead of calling the third-party API directly.
 
 For **exercise correction purposes**, the repository includes a `.env` file at the project root. In that file you should paste your Visual Crossing token into the `VITE_WEATHER_API_KEY` variable so that the weather widget works during the review.
 
@@ -87,6 +89,8 @@ apiKey: import.meta.env.VITE_WEATHER_API_KEY,
 - Sign up at Visual Crossing and generate an API key.
 - Place that key in `VITE_WEATHER_API_KEY`.
 - On startup, the app will request geolocation, call the weather endpoint and render icon + max/min temperatures.
+
+Security note (real-world): Visual Crossing uses a personal API token. If you put that token in the frontend (even via env vars) it is exposed to anyone who can load the app. In a real app, you should call Visual Crossing from your backend (or a serverless function) and have the frontend call your backend, keeping the token secret.
 
 If the key is missing or invalid, the weather call will fail; the joke features still work.
 
