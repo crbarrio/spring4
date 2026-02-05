@@ -9,7 +9,6 @@ const optionsGET: RequestInit = {
 const optionsPOST: RequestInit = {
   method: "POST",
   headers: {
-    "Authorization": "{{api_key}}",
     "Content-Type": "application/json"
   },
   body: ""
@@ -20,7 +19,6 @@ export type ApiEndpointConfig = {
   type: string,
   url: string,
   apiKey?: string,
-  apiPrefix?: string,
   apiOptions?: string[],
   joke?: string,
   requestOptions: RequestInit
@@ -52,10 +50,9 @@ export const apiData = [
   {
     name: 'translate',
     type: 'translate',
-    url: "https://api-free.deepl.com/v2/translate",
+    url: "http://localhost:5000/translate",
     apiKey: import.meta.env.VITE_TRANSLATE_API_KEY,
-    apiPrefix: 'DeepL-Auth-Key',
-    apiOptions: ['text', 'target_lang'],
+    apiOptions: ['q', 'source', 'target'],
     requestOptions: optionsPOST,
   }
 ] satisfies ApiEndpointConfig[]
@@ -65,23 +62,3 @@ export const debug = import.meta.env.VITE_DEBUG;
 export const language = ['EN-US', 'ES', 'FR', 'DE', 'IT'];
 
 
-// async function traducir() {
-//   try {
-//     const response = await fetch("https://api.deepl.com/v2/translate", ,
-//       body: JSON.stringify({
-//         text: ["Hello, world!"],
-//         target_lang: "DE"
-//       })
-//     });
-
-//     if (!response.ok) {
-//       throw new Error(`Error HTTP: ${response.status}`);
-//     }
-
-//     const data = await response.json();
-//     console.log("Traducción:", data.translations[0].text);
-
-//   } catch (error) {
-//     console.error("Error en la petición:", error);
-//   }
-// }

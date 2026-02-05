@@ -50,23 +50,11 @@ export function checkApiCall(apiName: string, urlParameters: Record<string, stri
 
         } else if (options.method === "POST") {
 
-            if (api.apiKey) {
-                const headers = options.headers as Record<string, string>;
-
-                if (headers['Authorization'] === '{{api_key}}') {
-
-                    if (api.apiPrefix) {
-                        headers['Authorization'] = `${api.apiPrefix} ${api.apiKey}`;
-                    } else {
-                        headers['Authorization'] = `${api.apiKey}`;
-                    }
-
-                }  else {
-                    throw new Error(errors.apiKeyError);
-                }
-            }
-
             const bodyContent: Record<string, string | number> = {};
+
+            if (api.apiKey) {
+                bodyContent['api_key'] = api.apiKey
+            }
 
             if (api.apiOptions) {
                 api.apiOptions.forEach(option => {

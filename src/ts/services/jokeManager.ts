@@ -30,12 +30,14 @@ export async function getJoke() {
 
 async function translateJoke(joke:string): Promise<string> {
 
-    const translation  = await fetchData('translate', {target_lang: 'ES', text: joke});
+    const translation  = await fetchData('translate', {source: 'en', target: 'es', q: joke});
 
     if (debug && translation.status === 'error') console.log(translation.error);
+
+    console.log(translation)
     
     if (translation.status === 'ok') {
-        return translation.data.translations[0].text;
+        return translation.data.translatedText;
     }
 
     return joke;
