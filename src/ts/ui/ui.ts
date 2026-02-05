@@ -1,26 +1,26 @@
 import { qs } from "../utils/dom";
 
-let spinnerTimeout: number | undefined;
+import { createSpinner } from "./spinnerManager";
 
-export function printJoke (joke: string, status: string, id: string = '') { 
-    const jokePanel = qs<HTMLParagraphElement>("#jokePanel")!;
-    const spinner = qs<HTMLElement>("#spinnerJoke")!;
+const jokePanel = qs<HTMLParagraphElement>("#jokePanel")!;
 
-    if (spinnerTimeout) {
-        clearTimeout(spinnerTimeout);
-        spinnerTimeout = undefined;
-    }
+export const jokeSpinner = createSpinner("#spinnerJoke", { delayMs: 500 });
 
-    spinner.classList.add("hidden");
+export function setJokePanel(joke:string) {
+    jokePanel.textContent = joke;
+}
+
+export function printJoke (joke: string, status: string, id: string = '', originalJoke: string = '') {
+    jokeSpinner.stop();
     
-    jokePanel.append(joke);
+    setJokePanel(joke);
     
     if (status == 'ok') {
         jokePanel.classList.add('text-comic-black', 'dark:text-white')
         jokePanel.classList.remove('text-red-700')
 
         jokePanel.setAttribute("data-id", id);
-        jokePanel.setAttribute("data-joke", joke);
+        jokePanel.setAttribute("data-joke", originalJoke);
 
     } else {
         jokePanel.classList.add('text-red-700')
@@ -73,21 +73,13 @@ export function toggleScorePanel(status: string) {
 }
 
 export function resetJokePanel() {
-    const spinner = qs<HTMLElement>("#spinnerJoke")!;
     const scoreSection = qs<HTMLDivElement>("#scoreSection")!;
     const jokePanel = qs<HTMLParagraphElement>("#jokePanel")!;
 
     jokePanel.innerHTML = ''; 
     scoreSection.classList.add("opacity-0");
-    
-    if (spinnerTimeout) {
-        clearTimeout(spinnerTimeout);
-        spinnerTimeout = undefined;
-    }
 
-    spinnerTimeout = window.setTimeout(() => {
-        spinner.classList.remove("hidden");
-    }, 500);
+    jokeSpinner.start();
 }
 
 export function showTranslationError() {

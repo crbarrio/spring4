@@ -18,8 +18,9 @@ export async function getJoke() {
     const mapJoke = jokeApi.joke;
 
     if (apiResult.status == 'ok') {
-        const joke = await translateJoke(apiResult.data[mapJoke!]);
-        printJoke(joke, apiResult.status, apiResult.data.id);
+        const originalJoke = apiResult.data[mapJoke!];
+        const joke = await translateJoke(originalJoke);
+        printJoke(joke, apiResult.status, apiResult.data.id, originalJoke);
     } else {
         printJoke(errors.userJokeError, apiResult.status)
         if (debug) console.log(apiResult.error) 

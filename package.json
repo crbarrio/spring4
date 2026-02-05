@@ -4,16 +4,21 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "vite": "vite",
+    "dev": "concurrently -k -n DOCKER,VITE \"npm:docker:up\" \"wait-on http://localhost:5000 && npm run vite\"",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest",
+    "docker:up": "docker compose -f ./backend/docker-compose.yml up --remove-orphans",
+    "docker:down": "docker compose -f ./backend/docker-compose.yml down"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
-    "vitest": "^4.0.18"
+    "concurrently": "^9.2.1",
+    "vitest": "^4.0.18",
+    "wait-on": "^9.0.3"
   }
 }

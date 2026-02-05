@@ -1,0 +1,30 @@
+services:
+  libretranslate:
+    container_name: libretranslate
+    image: libretranslate/libretranslate:latest
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+
+    ## Uncomment this for logging in docker compose logs
+    # tty: true
+    ## Uncomment above command and define your args if necessary
+    ## Refer to the documentation for more information: https://docs.libretranslate.com/guides/installation/#arguments
+    # command: --ssl --req-limit 100 --char-limit 500
+    ## Enable and persist API keys database
+    # environment:
+    #   - LT_API_KEYS=false
+    #   - LT_API_KEYS_DB_PATH=/app/db/api_keys.db
+    ## Uncomment these vars and libretranslate_models volume to optimize loading time.
+    environment:
+      - LT_UPDATE_MODELS=true
+      - LT_LOAD_ONLY=en,es,fr
+
+    volumes:
+      # - libretranslate_api_keys:/app/db
+      # Keep the models in a docker volume, to avoid re-downloading on startup
+      - libretranslate_models:/home/libretranslate/.local:rw
+
+volumes:
+  # libretranslate_api_keys:
+  libretranslate_models:

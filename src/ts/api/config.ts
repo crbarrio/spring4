@@ -51,7 +51,7 @@ export const apiData = [
     name: 'translate',
     type: 'translate',
     url: "http://localhost:5000/translate",
-    apiKey: import.meta.env.VITE_TRANSLATE_API_KEY,
+    apiKey: "",
     apiOptions: ['q', 'source', 'target'],
     requestOptions: optionsPOST,
   }

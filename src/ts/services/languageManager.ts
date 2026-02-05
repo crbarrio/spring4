@@ -1,13 +1,17 @@
 import { getLanguage, setLanguage, type Language } from "../state/store";
 import { fetchData } from "../api/apiService";
 import { debug } from "../api/config";
-import { showTranslationError, hideTranslationError } from "../ui/ui";
+import { showTranslationError, hideTranslationError, jokeSpinner, setJokePanel } from "../ui/ui";
+import { applyTranslations } from "../i18n/i18n";
 
-
-
-export function changeLanguage(language: Language): void {
+export async function changeLanguage(language: Language, joke: string): Promise<void> {
     setLanguage(language);
-    location.reload();
+    applyTranslations();
+    setJokePanel('');
+    const translatedJoke = await jokeSpinner.run(translateJoke(joke));
+
+    setJokePanel(translatedJoke);
+    
 }
 
 export async function translateJoke(joke:string): Promise<string> {

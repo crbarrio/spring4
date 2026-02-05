@@ -63,7 +63,6 @@ export function checkApiCall(apiName: string, urlParameters: Record<string, stri
                     bodyContent[option] = value;
                 });
 
-                console.log(bodyContent);
                 options.body = JSON.stringify(bodyContent);
 
             }

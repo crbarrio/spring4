@@ -1,7 +1,7 @@
 import { qs, qsa } from "./utils/dom";
 import { getJoke, saveScore } from "./services/jokeManager";
 import { getWeather } from "./services/weatherManager";
-import { changeLanguage, translateJoke } from "./services/languageManager";
+import { changeLanguage } from "./services/languageManager";
 import { showScore, resetJokePanel } from "./ui/ui";
 import { applyTranslations } from "./i18n/i18n";
 import { getLanguage } from "./state/store";
@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /// Main Functions ///
   applyTranslations()
+  resetJokePanel();
   getJoke();
   getWeather();
   
@@ -51,13 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const joke: string = jokePanel.getAttribute("data-joke") || '';
     const selectedLanguage = languageSelector.value as 'en' | 'es' | 'fr';
 
-    changeLanguage(selectedLanguage);
+    changeLanguage(selectedLanguage, joke);
 
-    translateJoke(joke).then(translatedJoke => {
-      jokePanel.textContent = translatedJoke;
-    })
-
-    applyTranslations();
 
   })
 
