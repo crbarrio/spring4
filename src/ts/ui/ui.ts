@@ -26,7 +26,6 @@ export function printJoke (joke: string, status: string, id: string = '') {
         jokePanel.classList.add('text-red-700')
         jokePanel.classList.remove('text-comic-black', 'dark:text-white')
     }
-    
 }
 
 
@@ -51,23 +50,20 @@ export function showScore(score: number) {
     const scoreNumber = qs<HTMLSpanElement>("#scoreNumber")!;
     scoreNumber.textContent = score.toString();
     
-    // Mostrar la estrella con transición
     if (hideScoreTimeout) {
         clearTimeout(hideScoreTimeout);
     }
 
-    // Efecto pop: aparece
     starScore.classList.remove("opacity-0", "scale-0", "translate-y-4");
     starScore.classList.add("opacity-100", "scale-100", "-translate-y-2", "animate-pow");
 
-    // Desaparece suavemente después de 2.5s
     hideScoreTimeout = window.setTimeout(() => {
         starScore.classList.remove("opacity-100", "scale-100", "-translate-y-2", "animate-pow");
         starScore.classList.add("opacity-0", "scale-0", "translate-y-4");
     }, 1400);
 }
 
-export function showStarsPanel(status: string) {
+export function toggleScorePanel(status: string) {
     const scoreSection = qs<HTMLDivElement>("#scoreSection")!;
 
     if (status === 'error') {
@@ -75,9 +71,7 @@ export function showStarsPanel(status: string) {
     } else {
         scoreSection.classList.remove("opacity-0");
     }
-    
 }
-
 
 export function resetJokePanel() {
     const spinner = qs<HTMLElement>("#spinnerJoke")!;

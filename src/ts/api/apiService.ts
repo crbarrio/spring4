@@ -1,7 +1,7 @@
 import { apiData } from "./config";
 import { errors } from "./errors";
 
-type ApiCallOK = { status: 'ok', url: string, options: RequestInit }
+type ApiCallOK = { status: 'ok', url: string, options: RequestInit, body?: string }
 type ApiCallError = { status: 'error', error: string }
 type ApiCallResult = ApiCallOK | ApiCallError
 
@@ -26,22 +26,59 @@ export function checkApiCall(apiName: string, urlParameters: Record<string, stri
         if (!api.url) throw new Error(errors.apiUrlError)
         let url = api.url
 
-        // Si hay apiKey en la configuración comprobar que esta en la url para replace
-        if (api.apiKey) {
-            if (url.search('{{api_key}}') === -1 ) throw new Error(errors.apiKeyError)
-            url = url.replace('{{api_key}}', api.apiKey)
-        }
+        // aqui crear dos vias dependiendo de si es GET o POST
 
-        // Si hay apiOptions comprobar que estan
-        if (api.apiOptions) {
-            api.apiOptions.forEach(option => {
-                const isOPtion = url.search(`{{${option}}}`) !== -1;
-                const value = urlParameters[option as keyof typeof urlParameters];
+        if (options.method === "GET") {
 
-                if (!isOPtion || !value) throw new Error(errors.apiOptionsError);
+            // Si hay apiKey en la configuración comprobar que esta en la url para replace
+            if (api.apiKey) {
+                if (url.search('{{api_key}}') === -1 ) throw new Error(errors.apiKeyError)
+                url = url.replace('{{api_key}}', api.apiKey)
+            }
 
-                url = url.replace(`{{${option}}}`, value as string);
-            });
+            // Si hay apiOptions comprobar que estan
+            if (api.apiOptions) {
+                api.apiOptions.forEach(option => {
+                    const isOPtion = url.search(`{{${option}}}`) !== -1;
+                    const value = urlParameters[option as keyof typeof urlParameters];
+
+                    if (!isOPtion || !value) throw new Error(errors.apiOptionsError);
+
+                    url = url.replace(`{{${option}}}`, value as string);
+                });
+            }
+
+        } else if (options.method === "POST") {
+
+            if (api.apiKey) {
+                const headers = options.headers as Record<string, string>;
+
+                if (headers['Authorization'] === '{{api_key}}') {
+
+                    if (api.apiPrefix) {
+                        headers['Authorization'] = `${api.apiPrefix} ${api.apiKey}`;
+                    } else {
+                        headers['Authorization'] = `${api.apiKey}`;
+                    }
+
+                }  else {
+                    throw new Error(errors.apiKeyError);
+                }
+            }
+
+            const bodyContent: Record<string, string | number> = {};
+
+            if (api.apiOptions) {
+                api.apiOptions.forEach(option => {
+                    const value = urlParameters[option as keyof typeof urlParameters];
+                    if (!value) throw new Error(errors.apiOptionsError);
+                    bodyContent[option] = value;
+                });
+
+                console.log(bodyContent);
+                options.body = JSON.stringify(bodyContent);
+
+            }
         }
 
         return {status: 'ok', url, options}
@@ -59,7 +96,6 @@ export async function fetchData(apiName: string, urlParameters: Record<string, s
 
     if (api.status === 'error') return {status: 'error', error: api.error}
     
-
     try {
         
         const response = await fetch(api.url, api.options);

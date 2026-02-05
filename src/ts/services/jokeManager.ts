@@ -1,7 +1,7 @@
 import { apiData, debug, type ApiEndpointConfig } from "../api/config";
 import { errors } from "../api/errors";
 import { fetchData } from "../api/apiService";
-import { printJoke, showStarsPanel } from "../ui/ui";
+import { printJoke, toggleScorePanel } from "../ui/ui";
 import { getJokesReport, setJokesReport } from "../state/store";
 
 
@@ -17,13 +17,28 @@ export async function getJoke() {
     const mapJoke = jokeApi.joke;
 
     if (apiResult.status == 'ok') {
-        printJoke(apiResult.data[mapJoke!], apiResult.status, apiResult.data.id);
+        const joke = await translateJoke(apiResult.data[mapJoke!]);
+        printJoke(joke, apiResult.status, apiResult.data.id);
     } else {
         printJoke(errors.userJokeError, apiResult.status)
         if (debug) console.log(apiResult.error) 
     }
 
-    showStarsPanel(apiResult.status);
+    toggleScorePanel(apiResult.status);
+}
+
+
+async function translateJoke(joke:string): Promise<string> {
+
+    const translation  = await fetchData('translate', {target_lang: 'ES', text: joke});
+
+    if (debug && translation.status === 'error') console.log(translation.error);
+    
+    if (translation.status === 'ok') {
+        return translation.data.translations[0].text;
+    }
+
+    return joke;
 }
 
 export function saveScore(score: number, id: string, joke: string) {
